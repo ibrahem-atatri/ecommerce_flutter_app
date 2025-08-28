@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="22" viewBox="0 0 20 22" id="trash">
+  <g id="Page-1" fill="none" fill-rule="evenodd" stroke="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1">
+    <g id="Artboard" stroke="#000" stroke-width="2" transform="translate(-1633 -2066)">
+      <g id="trash" transform="translate(1634 2067)">
+        <path id="Shape" d="M0 4h18M16 4v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4m3 0V2a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+      </g>
+    </g>
+  </g>
+</svg>

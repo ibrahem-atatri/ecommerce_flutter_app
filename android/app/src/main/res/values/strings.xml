@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <string name="facebook_app_id">1575170400125352</string>
+    <string name="fb_login_protocol_scheme">fb1575170400125352</string>
+    <string name="facebook_client_token">d5519aebf7cccdcd3203e4190cb88162</string>
+    <string name="app_name">Flutter Test Login</string>
+
+
+</resources>
