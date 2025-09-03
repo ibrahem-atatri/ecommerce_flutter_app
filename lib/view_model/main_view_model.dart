@@ -10,5 +10,8 @@ class MainViewModel extends StateNotifier<int> {
   void restPages(){
      state = 0;
   }
+  void goTo(int page){
+     state = page;
+  }
 }
 

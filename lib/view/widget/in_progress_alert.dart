@@ -13,11 +13,11 @@ Widget InProgressAlert() {
           Icon(Icons.error_outline_sharp, color: Colors.teal, size: 60.r),
           SizedBox(height: 40.h),
           Text(
-            'In Progress...',
+            'Will be available soon...',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Colors.grey,
-              fontSize: 24.r,
+              fontSize: 18.r,
             ),
           ),
         ],

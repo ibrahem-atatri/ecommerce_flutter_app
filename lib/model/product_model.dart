@@ -27,38 +27,30 @@ class ProductModel {
       rating: RatingModel.fromJson(json['rating']),
     );
   }
-  Map<String,dynamic> toMap() {
+  Map<String, dynamic> toMap() {
     return {
-      'id':this.id,
-    'title':this.title,
-    'price':this.price,
-    'description':this.description,
-    'category':this.category,
-    'rating':this.rating.toMap(),
-      'image':this.image,
-
-
-
-  };
-
+      'id': this.id,
+      'title': this.title,
+      'price': this.price,
+      'description': this.description,
+      'category': this.category,
+      'rating': this.rating.toMap(),
+      'image': this.image,
+    };
   }
 }
-
-
 
 class RatingModel {
   double rate;
-  int count ;
+  int count;
   RatingModel({required this.rate, required this.count});
   factory RatingModel.fromJson(json) {
-    return RatingModel(rate:(json['rate'] as num).toDouble(), count:json['count'] as int);
+    return RatingModel(
+      rate: (json['rate'] as num).toDouble(),
+      count: json['count'] as int,
+    );
   }
-  Map<String,dynamic> toMap(){
-    return {
-      'rate':this.rate,
-          'count':this.count
-    };
-
+  Map<String, dynamic> toMap() {
+    return {'rate': this.rate, 'count': this.count};
   }
 }
-

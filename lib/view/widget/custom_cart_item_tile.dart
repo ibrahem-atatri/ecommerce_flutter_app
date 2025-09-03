@@ -1,4 +1,5 @@
 import 'package:ecommerce_app/view/item_describtion/item_description_view.dart';
+import 'package:ecommerce_app/view/widget/confirm_delete_alert.dart';
 import 'package:ecommerce_app/view/widget/custom_circular_button.dart';
 import 'package:ecommerce_app/view_model/cart_item_view_model.dart';
 import 'package:flutter/material.dart';
@@ -97,8 +98,15 @@ final int index;
                           ),
                           // alignment: Alignment.topRight,
                           onPressed: () {
-                            ref.read(cartItemViewProvider.notifier).deleteFromCart(item!.productModel.id.toString());
-                          },
+                            showDialog(context: context, builder: (context) {
+                              return ConfirmDeleteAlert(context: context,onPressed: (){
+                                ref.read(cartItemViewProvider.notifier).deleteFromCart(item!);
+                                Navigator.of(context).pop();
+                              });
+                          },);
+
+                              }
+                          ,
                           enableFeedback: !items.isLoading,
                           icon:items.isLoading? CircularProgressIndicator() : SvgPicture.asset(
                             alignment: Alignment.topRight,
@@ -111,7 +119,14 @@ final int index;
                         Row(
                           children: [
                             CustomCircularButton(text: '-',onTap: () {
-                              ref.read(cartItemViewProvider.notifier).decrementCartItem(item!);
+                                  if(item?.quantity ==1){
+                              showDialog(context: context, builder: (context) {
+                                return ConfirmDeleteAlert(context: context,onPressed: (){
+                                  ref.read(cartItemViewProvider.notifier).deleteFromCart(item!);
+                                  Navigator.of(context).pop();
+                                });
+                              },);}else{ref.read(cartItemViewProvider.notifier).decrementCartItem(item!);}
+
                             },),
                             SizedBox(width: 10.w),
                             Text(

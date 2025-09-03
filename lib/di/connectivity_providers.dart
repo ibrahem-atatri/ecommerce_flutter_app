@@ -3,6 +3,6 @@ import 'package:internet_connection_checker_plus/internet_connection_checker_plu
 
 final internetConnectionProvider = StreamProvider<bool>((ref) {
   return InternetConnection().onStatusChange.map(
-        (status) => status == InternetStatus.connected,
+    (status) => status == InternetStatus.connected,
   );
 });

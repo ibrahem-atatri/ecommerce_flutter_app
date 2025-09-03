@@ -8,6 +8,7 @@ import 'package:ecommerce_app/view_model/auth_view_model.dart';
 import 'package:ecommerce_app/view_model/main_view_model.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -19,8 +20,13 @@ void main() async {
   debugPaintSizeEnabled:true;
   debugPaintPointersEnabled:true;
   debugRepaintRainbowEnabled:true;
+   WidgetsFlutterBinding.ensureInitialized();
 
-  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // await FirebaseAuth.instance.useAuthEmulator('10.0.2.2', 9099);
   runApp(ProviderScope(child: MyApp()));

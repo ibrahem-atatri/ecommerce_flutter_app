@@ -8,16 +8,17 @@ import 'package:ecommerce_app/view_model/auth_view_model.dart';
 import 'package:ecommerce_app/view_model/cart_item_view_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final itemDescriptionProvider = AsyncNotifierProvider.family.autoDispose<
-  ItemDescriptionViewModel,
-  CartModel?,
-  ProductModel
->(() => ItemDescriptionViewModel());
+final itemDescriptionProvider = AsyncNotifierProvider.family
+    .autoDispose<ItemDescriptionViewModel, CartModel?, ProductModel>(
+      () => ItemDescriptionViewModel(),
+    );
 
 class ItemDescriptionViewModel
     extends AutoDisposeFamilyAsyncNotifier<CartModel?, ProductModel> {
   late final CartRepository cartRepository;
   late final userId;
+  late final amountState = ref.read(totalAmountProvider.notifier);
+  late double totalAmount = double.parse(ref.read(totalAmountProvider).value??'0.0');
   @override
   FutureOr<CartModel?> build(ProductModel productModel) async {
     cartRepository = ref.read(cartRepositoryProvider);
@@ -28,7 +29,7 @@ class ItemDescriptionViewModel
     );
   }
 
-  Future<void> addToCart({prductModel}) async {
+  Future<void> addToCart({ prductModel}) async {
     state = AsyncLoading();
     try {
       await cartRepository.addToCart(prductModel, userId);
@@ -36,6 +37,8 @@ class ItemDescriptionViewModel
         itemId: prductModel.id.toString(),
         userId: userId,
       );
+      totalAmount = totalAmount + prductModel.price;
+      await amountState.setAmount(amount: totalAmount);
       state = AsyncData(item);
     } on FirebaseException catch (e, stackTrace) {
       state = AsyncError(e, stackTrace);
@@ -53,7 +56,11 @@ class ItemDescriptionViewModel
         itemId: itemId,
         userId: userId,
       );
+      if(item!=null){
+      totalAmount = totalAmount - (item.productModel.price*item.quantity);
+      }
       state = AsyncData(null);
+      await amountState.setAmount(amount: totalAmount);
     } on FirebaseException catch (e, stackTrace) {
       state = AsyncError(e, stackTrace);
     } catch (e, stackTrace) {
@@ -63,12 +70,12 @@ class ItemDescriptionViewModel
   }
 
   Future<void> incrementQuantity({itemId}) async {
-
     CartModel? cartModel = await cartRepository.getSingleCartItem(
       userId: userId,
       itemId: itemId,
     );
     cartModel!.quantity++;
+      totalAmount = totalAmount + cartModel.productModel.price;
     state = AsyncData(cartModel);
     try {
       await cartRepository.updateCartItem(cartModel, userId);
@@ -76,16 +83,18 @@ class ItemDescriptionViewModel
         userId: userId,
         itemId: cartModel.productModel.id,
       );
+      await amountState.setAmount(amount: totalAmount);
     } on FirebaseException catch (e, stackTrace) {
+      totalAmount = totalAmount - cartModel.productModel.price;
       state = AsyncError(e, stackTrace);
     } catch (e, stackTrace) {
+      totalAmount = totalAmount - cartModel.productModel.price;
       state = AsyncError(e, stackTrace);
     }
     ref.read(cartItemViewProvider.notifier).refershCartItem();
   }
 
   Future<void> decrementQuantity({itemId}) async {
-
     CartModel? cartModel = await cartRepository.getSingleCartItem(
       userId: userId,
       itemId: itemId,
@@ -95,6 +104,7 @@ class ItemDescriptionViewModel
       state = AsyncData(null);
     } else {
       cartModel.quantity--;
+      totalAmount = totalAmount - cartModel.productModel.price;
       state = AsyncData(cartModel);
       try {
         await await cartRepository.updateCartItem(cartModel!, userId);
@@ -102,23 +112,15 @@ class ItemDescriptionViewModel
           userId: userId,
           itemId: cartModel.productModel.id,
         );
+        await amountState.setAmount(amount: totalAmount);
       } on FirebaseException catch (e, stackTrace) {
+        totalAmount = totalAmount + cartModel.productModel.price;
         state = AsyncError(e, stackTrace);
       } catch (e, stackTrace) {
+        totalAmount = totalAmount + cartModel.productModel.price;
         state = AsyncError(e, stackTrace);
       }
     }
     ref.read(cartItemViewProvider.notifier).refershCartItem();
   }
-
-  // void isItemInCart(ProductModel productModel) async{
-  //   state = AsyncLoading();
-  //   try {
-  //     final isInCart = await cartRepository.checkItemInCart(
-  //         productModel.id.toString(), userId);
-  //     state = AsyncData(isInCart);
-  //   }catch (e,stackTrace){
-  //     state = AsyncError(e,stackTrace);
-  //   }
-  // }
 }

@@ -11,13 +11,18 @@ final onTap;
       children: [
         Divider(color: Colors.grey[300], height: 2),
         BottomNavigationBar(
-          type: BottomNavigationBarType.shifting,
+          // type: BottomNavigationBarType.shifting,
+          enableFeedback: false,
+          elevation: 0,
+          useLegacyColorScheme: false,
+          selectedFontSize: 15,
+          unselectedFontSize: 15,
+          type: BottomNavigationBarType.fixed,
           currentIndex: currentIndex,
           onTap:  onTap,
           selectedItemColor: Colors.orange,
-          selectedIconTheme: IconThemeData(color: Colors.orange, size: 30),
+          selectedIconTheme: IconThemeData(color: Colors.orange),
           unselectedIconTheme: IconThemeData(color: Colors.grey[400]),
-          unselectedItemColor: Colors.grey[400],
           showUnselectedLabels: true,
           items: [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),

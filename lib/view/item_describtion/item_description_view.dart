@@ -1,16 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce_app/model/product_model.dart';
 import 'package:ecommerce_app/view/widget/color_widget.dart';
+import 'package:ecommerce_app/view/widget/confirm_delete_alert.dart';
 import 'package:ecommerce_app/view/widget/custom_button_widget.dart';
 import 'package:ecommerce_app/view/widget/header_text.dart';
 import 'package:ecommerce_app/view/widget/in_progress_alert.dart';
-import 'package:ecommerce_app/view_model/cart_item_view_model.dart';
 import 'package:ecommerce_app/view_model/item_description_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-
 import '../widget/custom_circular_button.dart';
 
 class ItemDescriptionView extends StatelessWidget {
@@ -59,41 +57,7 @@ class ItemDescriptionView extends StatelessWidget {
                                   onPressed: () {Navigator.of(context).pop();},
                                   icon: Icon(Icons.arrow_back),
                                 ),
-                                // Spacer(flex: 1),
-                               // Container(
-                               //   margin: EdgeInsets.all(4),
-                               //   width: 35,
-                               //   height: 35,
-                               //   child: Consumer(
-                               //     builder: (context, ref, child) {
-                               //       final isInCart = ref.watch(itemDescriptionProvider(productModel));
-                               //       // ref.read(itemDescriptionProvider.).isItemInCart(productModel);
-                               //      return isInCart.when(
-                               //
-                               //         data: (data) {
-                               //
-                               //          return  IconButton(
-                               //            padding: EdgeInsets.all(0),
-                               //            onPressed: data ? ()  {
-                               //                  ref.read(cartItemViewProvider.notifier).deleteFromCart(productModel.id.toString());
-                               //                  ref.read(itemDescriptionProvider(productModel).notifier).isItemInCart(productModel);
-                               //            } : ()  {
-                               //              ref.read(cartItemViewProvider.notifier).addToCart(productModel);
-                               //              ref.read(itemDescriptionProvider(productModel).notifier).isItemInCart(productModel);
-                               //
-                               //            },
-                               //            icon: data ? SvgPicture.asset('assets/itHasBeenAdded.svg',):SvgPicture.asset('assets/addToCart.svg',color: Colors.orange[500],),
-                               //          );
-                               //
-                               //       }, error: (error, stackTrace) {
-                               //         return Icon(Icons.error);
-                               //       }, loading: () {
-                               //              return CircularProgressIndicator(color: Colors.orange[500],padding: EdgeInsets.all(5),);
-                               //       },);
-                               //     },
-                               //
-                               //   ),
-                               // ),
+
 
                               ],
                             ),
@@ -234,7 +198,14 @@ class ItemDescriptionView extends StatelessWidget {
                                       Text('Quantity',style: TextStyle(color: Colors.orange[500],fontSize: 18.sp,fontWeight: FontWeight.bold),),
                                       SizedBox(width: 50.w,),
                                         CustomCircularButton(text: '-',onTap: () {
-                                          ref.read(itemDescriptionProvider(productModel).notifier).decrementQuantity(itemId: productModel.id.toString());
+                                  if(data?.quantity ==1){
+                                  showDialog(context: context, builder: (context) {
+                                  return ConfirmDeleteAlert(context: context,onPressed: (){
+                                  ref.read(itemDescriptionProvider(productModel).notifier).deleteFromCart(itemId: productModel.id.toString());
+                                  Navigator.of(context).pop();
+                                  });
+                                  },);}else{
+                                          ref.read(itemDescriptionProvider(productModel).notifier).decrementQuantity(itemId: productModel.id.toString());}
                                         },),
                                         SizedBox(width: 10.w),
                                         Text(
@@ -256,20 +227,28 @@ class ItemDescriptionView extends StatelessWidget {
                                   );
 
                                 }, error: (error, stackTrace) {
+
                                   final message;
                                   if(error is FirebaseException)
                                     message = error.message??'There is an error in the cart ';
                                   else
                                     message = error.toString();
-                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message),),);
 
-                                return Center(child: Text(error.toString()),);
+                                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text(message)),
+                                    );
+                                  });
+                                return Center(child: Text('${error.toString()} ${stackTrace}'),);
                               }, loading: () {
                                 return Center(child: CircularProgressIndicator(color: Colors.orange[500],padding: EdgeInsets.all(5),));
-                              },);
+                              },
+
+                              );
                             },
 
                           ),
+
                           SizedBox(height: 20.h,),
 
                         ],

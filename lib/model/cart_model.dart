@@ -4,10 +4,7 @@ class CartModel {
   ProductModel productModel;
   int quantity;
 
-  CartModel({
-    required this.productModel,
-    required this.quantity,
-  });
+  CartModel({required this.productModel, required this.quantity});
 
   factory CartModel.fromJson(json) {
     return CartModel(
@@ -16,12 +13,10 @@ class CartModel {
     );
   }
 
-  Map<String,dynamic> toMap(){
+  Map<String, dynamic> toMap() {
     return {
-      'productModel':this.productModel.toMap(),
-      'quantity':this.quantity
+      'productModel': this.productModel.toMap(),
+      'quantity': this.quantity,
     };
   }
 }
-
-

@@ -7,6 +7,7 @@ import 'package:ecommerce_app/view/widget/search_bar_widget.dart';
 import 'package:ecommerce_app/view/widget/swiper_item_widget.dart';
 import 'package:ecommerce_app/view_model/auth_view_model.dart';
 import 'package:ecommerce_app/view_model/home_view_model.dart';
+import 'package:ecommerce_app/view_model/main_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -41,13 +42,22 @@ class HomeView extends StatelessWidget {
                   '$getGreeting!',
                   style: TextStyle(fontSize: 16.r, fontWeight: FontWeight.w800),
                 ),
-                trailing: CircleAvatar(
-                  radius: 30.r,
-                  // backgroundImage: AssetImage('assets/img.png'),
-                  backgroundColor: Colors.orange.shade500,
-                  child: Icon(Icons.person, size: 40.r, color: Colors.white),
-                ),
-              ),
+                trailing: Consumer(builder: (context, ref, child) {
+
+                  return   GestureDetector(
+                    child: CircleAvatar(
+                      radius: 30.r,
+                      // backgroundImage: AssetImage('assets/img.png'),
+                      backgroundColor: Colors.orange.shade500,
+                      child: Icon(Icons.person, size: 40.r, color: Colors.white),
+                    ),
+                    onTap: (){
+                      ref.read(mainViewModelProvider.notifier).goTo(2);
+                    });
+
+
+                },)),
+
               Expanded(
                 child: Consumer(
                   builder: (context, ref, child) {
