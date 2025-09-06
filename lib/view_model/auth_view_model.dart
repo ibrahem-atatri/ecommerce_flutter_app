@@ -12,8 +12,8 @@ final authViewModelProvider = StreamNotifierProvider<AuthViewModel,User?>(
   ( ) => AuthViewModel()
 );
 
-class AuthViewModel extends StreamNotifier<User?> {
-  late final AuthRepository authRepository ;
+class AuthViewModel extends StreamNotifier<User?> { //This is not a view model !!
+  late final AuthRepository authRepository ; //late is bad practice
   @override
   Stream<User?> build() {
         authRepository = ref.read(authRepositoryProvider);

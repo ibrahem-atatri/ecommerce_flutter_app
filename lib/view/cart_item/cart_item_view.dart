@@ -19,7 +19,7 @@ class CartItemView extends ConsumerStatefulWidget {
 }
 
 class _CartItemViewState extends ConsumerState<CartItemView> {
-  ScrollController scrollController = ScrollController();
+  ScrollController scrollController = ScrollController(); //move all the logic to the view model , no need for stateful widgets
 
   @override
   void initState() {

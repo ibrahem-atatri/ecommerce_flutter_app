@@ -24,7 +24,7 @@ final onTap;
           selectedIconTheme: IconThemeData(color: Colors.orange),
           unselectedIconTheme: IconThemeData(color: Colors.grey[400]),
           showUnselectedLabels: true,
-          items: [
+          items: [ //here based on the list of items make a map function to iterate over them to make it more dynamic
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
 
             BottomNavigationBarItem(

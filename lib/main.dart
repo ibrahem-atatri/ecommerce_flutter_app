@@ -34,20 +34,22 @@ void main() async {
 }
 
 ///////
-
+///TODO :you should create a different folder called app add your app class in it
+///TODO : ADD NAME TO YOUR APP
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
+  const MyApp({super.key}); //TODO : ADD const where ever it is needed to avoid no need rebuilding
+  //TODO : const avoid unnecessary rebuilding to optimize your widgets
   @override
   Widget build(BuildContext context) {
-   return ScreenUtilInit(designSize: Size(399, 844),
-     minTextAdapt: true,
+   return ScreenUtilInit(designSize: Size(399, 844), //TODO: Hard-coded design size is WRONG
+     minTextAdapt: true, // If the design reference (399x844) doesn’t match the actual device dimensions closely, scaling may look off.
      splitScreenMode: true,
    builder: (context, child) {
-     return   MaterialApp(
+     return   MaterialApp( //try using GitMaterialApp it gives you more options
        debugShowCheckedModeBanner: false,
        title: 'Flutter ecommerce demo',
-       home:  MainState(),
-     );
+       home:  MainState(), //for best practices use splash screen ,
+     ); // show the app logo and do what you want like checking if the user is logged in
    },);
 
   }
@@ -87,7 +89,7 @@ class MainState extends ConsumerWidget {
 
 class MainApp extends ConsumerWidget {
   MainApp({super.key});
-  final List<Widget> bottomNavItem = [
+  final List<Widget> bottomNavItem = [ //move it to the view model
     HomeView(),
     CartItemView(),
     ProfileView(),
@@ -99,7 +101,7 @@ class MainApp extends ConsumerWidget {
 
     return Scaffold(
       body: bottomNavItem[currentIndex],
-      bottomNavigationBar: Custombottomnavigationbar(
+      bottomNavigationBar: Custombottomnavigationbar( //send the list of pages to it , don't build it internally
         currentIndex: currentIndex,
         onTap: (value) {
           ref.read(mainViewModelProvider.notifier).setCurrentPage(value);
