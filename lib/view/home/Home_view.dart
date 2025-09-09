@@ -65,8 +65,9 @@ class HomeView extends StatelessWidget {
                     final products = ref.watch(homeViewModelProvider);
                     ref.listen(internetConnectionProvider, (previous, next) {
                       next.when(data: (data) {
-                        if(!data)
-                        return ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('no internet connection'),duration: Duration(seconds: 1),));
+                        if(!data) {
+                          return ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('no internet connection'),duration: Duration(seconds: 1),));
+                        }
                       }, error: (error, stackTrace) {
                         return ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error.toString())));
                       }, loading: () {
@@ -90,7 +91,7 @@ class HomeView extends StatelessWidget {
                                 return state
                                     ? products.when(
                                       data: (data) {
-                                        if (data != null || data.length > 0) {
+                                        if (data != null || data.length > 0) { //data never will be null based on your logic so no need for the condition
                                           return Column(
                                             children: [
                                               Container(
