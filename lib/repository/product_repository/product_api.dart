@@ -20,18 +20,12 @@ class ProductApi extends ProductRepository {
   @override
   Future<List<ProductModel>> getAllProduct() async {
     List<ProductModel> products = [];
-    try {
       final response = await dio.get('products');
       final data = response.data as List;
       products =
           data.map((product) {
             return ProductModel.fromJson(product);
           }).toList();
-    } on DioException {
-      rethrow;
-    } catch (e) {
-      throw Exception('There are an error${e}');
-    }
     return products;
   }
 

@@ -15,8 +15,8 @@ class CartModel {
 
   Map<String, dynamic> toMap() {
     return {
-      'productModel': this.productModel.toMap(),
-      'quantity': this.quantity,
+      'productModel': productModel.toMap(),
+      'quantity': quantity,
     };
   }
 }

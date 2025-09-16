@@ -29,13 +29,13 @@ class ProductModel {
   }
   Map<String, dynamic> toMap() {
     return {
-      'id': this.id,
-      'title': this.title,
-      'price': this.price,
-      'description': this.description,
-      'category': this.category,
-      'rating': this.rating.toMap(),
-      'image': this.image,
+      'id':id,
+      'title': title,
+      'price': price,
+      'description': description,
+      'category': category,
+      'rating': rating.toMap(),
+      'image': image,
     };
   }
 }
@@ -51,6 +51,6 @@ class RatingModel {
     );
   }
   Map<String, dynamic> toMap() {
-    return {'rate': this.rate, 'count': this.count};
+    return {'rate': rate, 'count': count};
   }
 }

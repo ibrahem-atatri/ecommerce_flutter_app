@@ -11,5 +11,5 @@ abstract class CartRepository {
   Future<bool> checkItemInCart(String itemId, uid);
   Future<CartModel?> getSingleCartItem({userId, itemId});
   Future<double> getTotalAmount({uid});
-  Future<void> setTotalAmount({uid,amount});
+  Future<void> setTotalAmount({uid, amount});
 }
